@@ -1,0 +1,22 @@
+.text:hover {
+  color: black;
+  background-color: #e8f0fe;
+}
+.create-contact {
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
+  border-radius: 15px;
+}
+.label-btn {
+  color: #086ff5;
+  border-bottom: none;
+}
+.label-btn:focus {
+  border-bottom: none;
+}
+
+.label-input {
+  border-bottom: 2px solid black;
+}
+.label-input:focus {
+  border-bottom: 3px solid #086ff5;
+}

@@ -1,0 +1,17 @@
+.createContact {
+  margin-left: 0;
+}
+input {
+  border-bottom: 1px solid black;
+}
+input:focus {
+  outline: none;
+  border-bottom: 1px solid black;
+}
+.gray-text {
+  color: rgb(152, 150, 150);
+}
+.btn {
+  color: white;
+  background-color: #1a73e8;
+}

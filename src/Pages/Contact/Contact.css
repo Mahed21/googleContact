@@ -1,0 +1,23 @@
+.image {
+  width: 15%;
+  border-radius: 50%;
+  display: block;
+}
+.contact-card:hover {
+  background-color: #f1f3f4;
+}
+.updateimage {
+  width: 15%;
+  border-radius: 50%;
+}
+.btn:hover {
+  background-color: #1a73e8;
+  color: white;
+}
+.label {
+  background-color: #f1f3f4;
+  font-size: larger;
+}
+.label:focus {
+  background-color: #1a73e8;
+}
