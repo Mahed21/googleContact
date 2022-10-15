@@ -67,8 +67,9 @@ const Drawer = () => {
     console.log(labelName);
     const newContact = {
       label: labelName,
+      userEmail: user.email,
     };
-    fetch("http://localhost:5000/label", {
+    fetch("https://google-contact.onrender.com/label", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -79,6 +80,7 @@ const Drawer = () => {
       .then((data) => {
         console.log(data);
         if (data.insertedId) {
+          console.log(data);
           closeModal();
           navigate("/");
         }

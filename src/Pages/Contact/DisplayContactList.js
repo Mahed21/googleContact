@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import "./Contact.css";
 import Modal from "react-modal";
 import DisplayLabel from "./DisplayLabel";
+import UseAuth from "../../Context/UseAuth";
 const customStyles = {
   content: {
     top: "50%",
@@ -18,6 +19,7 @@ const customStyles = {
 };
 
 const DisplayContactList = (props) => {
+  const { user } = UseAuth();
   // model
   let subtitle;
   const [modalIsOpen, setIsOpen] = React.useState(false);
@@ -75,8 +77,13 @@ const DisplayContactList = (props) => {
   useEffect(() => {
     fetch("https://google-contact.onrender.com/label")
       .then((res) => res.json())
-      .then((data) => setLabelName(data));
-  }, []);
+      .then((data) => {
+        const fetchData = data.filter(
+          (datas) => datas.userEmail === user.email
+        );
+        setLabelName(fetchData);
+      });
+  }, [user.email]);
 
   //update user contact giving label name
   // get label which onclick
