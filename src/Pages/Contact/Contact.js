@@ -1,21 +1,28 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import UseAuth from "../../Context/UseAuth";
 import DisplayContactList from "./DisplayContactList";
 
 const Contact = () => {
+  const { user } = UseAuth();
+  //console.log(user);
+
   const navigate = useNavigate();
   let deleteIds = [];
 
   const [userData, setUserData] = useState([]);
   useEffect(() => {
-    fetch("http://localhost:5000/user")
+    fetch("https://google-contact.onrender.com/user")
       .then((res) => res.json())
       .then((data) => {
-        //console.log(data);
-        const Datavalue = data.filter((datas) => datas.bin !== "bin");
+        const Datavalue = data.filter(
+          (datas) => datas.bin !== "bin" && datas.userEmail === user.email
+        );
+        // console.log(Datavalue);
         setUserData(Datavalue);
+        console.log(Datavalue);
       });
-  }, []);
+  }, [user.email]);
 
   const handleChange = (event, id) => {
     //console.log(id);
@@ -36,7 +43,7 @@ const Contact = () => {
     };
     //console.log(usersManage);
     for (let i = 0; i < deleteIds.length; i++) {
-      fetch(`http://localhost:5000/userBin/${deleteIds[i]}`, {
+      fetch(`https://google-contact.onrender.com/userBin/${deleteIds[i]}`, {
         method: "PUT",
         headers: {
           "content-type": "application/json",
@@ -53,9 +60,9 @@ const Contact = () => {
   return (
     <div>
       <button className="btn mb-3 ps-5 pe-5" onClick={handleDelete}>
-        Delete
+        Move to bin
       </button>
-      <div className="row row-cols-lg-4 mb-4">
+      <div className="row row-cols-lg-5 mb-4">
         <h4>Name</h4>
         <h4>Email</h4>
         <h4>Phone Number</h4>

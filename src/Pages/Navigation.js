@@ -1,9 +1,16 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Home/Home.css";
 import contact from "../image/contacts.png";
+import UseAuth from "../Context/UseAuth";
 
 const Navigation = () => {
+  const { user, Logout } = UseAuth();
+  //console.log(user);
+  let navigate = useNavigate();
+  const login = () => {
+    navigate("/login");
+  };
   return (
     <div className="header pt-3 pb-3 mb-3">
       <div className="d-flex justify-content-between container ">
@@ -26,7 +33,7 @@ const Navigation = () => {
           <input className="w-100" />
         </div> */}
         <div className="d-flex mt-3">
-          <span className="me-3">
+          <span className="me-3 mt-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -44,7 +51,7 @@ const Navigation = () => {
               <line x1="12" y1="17" x2="12.01" y2="17"></line>
             </svg>
           </span>
-          <span className="me-3">
+          <span className="me-3 mt-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -61,7 +68,7 @@ const Navigation = () => {
               <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
             </svg>
           </span>
-          <span>
+          <span className="me-2 mt-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -79,6 +86,17 @@ const Navigation = () => {
               <line x1="12" y1="17" x2="12.01" y2="17"></line>
             </svg>
           </span>
+          {user.email ? (
+            <div>
+              <button className="btn" onClick={Logout}>
+                Logout
+              </button>
+            </div>
+          ) : (
+            <div className="btn" onClick={login}>
+              Login
+            </div>
+          )}
         </div>
       </div>
     </div>

@@ -1,18 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import UseAuth from "../../Context/UseAuth";
 import DisplayGetLabelData from "./DisplayGetLabelData";
 
 const GetLebelData = () => {
+  const { user } = UseAuth();
   const location = useLocation();
   let label = location.state.label;
   let id = location.state.id;
   console.log(label, id);
   const [userData, setUserData] = useState([]);
   useEffect(() => {
-    fetch("http://localhost:5000/user")
+    fetch("https://google-contact.onrender.com/user")
       .then((res) => res.json())
       .then((data) => {
-        const fetchData = data.filter((datas) => datas.label === label);
+        const fetchData = data.filter(
+          (datas) => datas.label === label && datas.userEmeail === user.email
+        );
         setUserData(fetchData);
       });
   }, []);

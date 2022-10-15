@@ -1,5 +1,6 @@
 .image {
-  width: 15%;
+  width: 30%;
+  height: 50px;
   border-radius: 50%;
   display: block;
 }
@@ -8,6 +9,7 @@
 }
 .updateimage {
   width: 15%;
+
   border-radius: 50%;
 }
 .btn:hover {

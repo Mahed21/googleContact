@@ -4,7 +4,7 @@ import DisplayLabelData from "./DisplayLabelData";
 
 const Label = () => {
   const [label, setLabe] = useState([]);
-  fetch("http://localhost:5000/label")
+  fetch("https://google-contact.onrender.com/label")
     .then((res) => res.json())
     .then((data) => setLabe(data));
   return (

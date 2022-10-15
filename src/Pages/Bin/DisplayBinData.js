@@ -1,6 +1,7 @@
 import React from "react";
 
 const DisplayBinData = (props) => {
+  const { onChangeForUndo } = props;
   const {
     firstName,
     sureName,
@@ -16,11 +17,8 @@ const DisplayBinData = (props) => {
 
   return (
     <div>
-      <div className="row row-cols-lg-4 mb-3 contact-card pt-3 pb-3">
+      <div className="row row-cols-lg-5 mb-3 contact-card pt-3 pb-3">
         <div className="d-flex">
-          <div className="mt-2 me-2">
-            <input type="checkbox" id="myCheck" className="w-100" />
-          </div>
           <img src={image} alt="" className="img-fluid image" />
           <span className="ms-2 mt-2">
             {firstName} {sureName}
@@ -36,6 +34,11 @@ const DisplayBinData = (props) => {
           <h5>
             {title} {company}
           </h5>
+        </div>
+        <div>
+          <button className="btn" onClick={onChangeForUndo}>
+            undo
+          </button>
         </div>
       </div>
     </div>

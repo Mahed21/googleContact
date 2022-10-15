@@ -4,8 +4,10 @@ import "./CreateContact.css";
 import CountryDropdown from "country-dropdown-with-flags-for-react";
 import profile from "../../image/profile.jpg";
 import { useNavigate } from "react-router-dom";
+import UseAuth from "../../Context/UseAuth";
 
 const CreateContact = () => {
+  const { user } = UseAuth();
   let navigate = useNavigate();
   const [firstName, setFirstName] = useState("");
   const [sureName, setSureName] = useState("");
@@ -59,8 +61,9 @@ const CreateContact = () => {
               note: note,
               label: label,
               bin: bin,
+              userEmail: user.email,
             };
-            fetch(`http://localhost:5000/user`, {
+            fetch(`https://google-contact.onrender.com/user`, {
               method: "POST",
               headers: {
                 "content-type": "application/json",

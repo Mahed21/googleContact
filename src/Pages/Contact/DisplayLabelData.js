@@ -11,7 +11,7 @@ const DisplayLabelData = (props) => {
   };
   const deleteLabel = (id) => {
     console.log(id);
-    fetch(`http://localhost:5000/label/${id}`, {
+    fetch(`https://google-contact.onrender.com/label/${id}`, {
       method: "DELETE",
     })
       .then((res) => res.json())

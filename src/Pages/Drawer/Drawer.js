@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import "./Drawer.css";
 import Modal from "react-modal";
+import UseAuth from "../../Context/UseAuth";
 const customStyles = {
   content: {
     top: "50%",
@@ -16,14 +17,40 @@ const customStyles = {
 };
 
 const Drawer = () => {
+  const { user } = UseAuth();
   let navigate = useNavigate();
   const [labelName, setLabelName] = useState();
   //for modal
   let subtitle;
   const [modalIsOpen, setIsOpen] = React.useState(false);
+  const createContact = () => {
+    if (user.email) {
+      navigate("/createContact");
+    } else {
+      navigate("/login");
+    }
+  };
+  const moveBin = () => {
+    if (user.email) {
+      navigate("/bin");
+    } else {
+      navigate("/login");
+    }
+  };
+  const moveLabel = () => {
+    if (user.email) {
+      navigate("/label");
+    } else {
+      navigate("/login");
+    }
+  };
 
   function openModal() {
-    setIsOpen(true);
+    if (user.email) {
+      setIsOpen(true);
+    } else {
+      navigate("/login");
+    }
   }
 
   function afterOpenModal() {
@@ -70,7 +97,7 @@ const Drawer = () => {
           <ul className="menu p-4 overflow-y-auto w-80 bg-base-100 text-base-content">
             {/* <!-- Sidebar content here --> */}
             <li className="create-contact mb-2">
-              <Link to="/createContact" className="text">
+              <button className="text" onClick={createContact}>
                 <span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -89,7 +116,7 @@ const Drawer = () => {
                   </svg>
                 </span>
                 Create Contact
-              </Link>
+              </button>
             </li>
             <li>
               <Link to="" className="text">
@@ -116,7 +143,7 @@ const Drawer = () => {
 
             <hr />
             <li>
-              <Link to="/label" className="text">
+              <button onClick={moveLabel} className="text">
                 <span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -134,7 +161,7 @@ const Drawer = () => {
                   </svg>
                 </span>
                 Labels
-              </Link>
+              </button>
             </li>
             <li>
               <button onClick={openModal}>
@@ -280,7 +307,7 @@ const Drawer = () => {
               </Link>
             </li>
             <li>
-              <Link to="/bin" className="text">
+              <button onClick={moveBin} className="text">
                 <span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -301,7 +328,7 @@ const Drawer = () => {
                   </svg>
                 </span>
                 Bin
-              </Link>
+              </button>
             </li>
           </ul>
         </div>

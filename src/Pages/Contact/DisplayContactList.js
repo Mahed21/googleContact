@@ -73,7 +73,7 @@ const DisplayContactList = (props) => {
   //lebel fetch
   const [labelName, setLabelName] = useState([]);
   useEffect(() => {
-    fetch("http://localhost:5000/label")
+    fetch("https://google-contact.onrender.com/label")
       .then((res) => res.json())
       .then((data) => setLabelName(data));
   }, []);
@@ -88,7 +88,7 @@ const DisplayContactList = (props) => {
       label: labelvalue,
     };
     console.log(usersManage);
-    const url = `http://localhost:5000/labelUser/${id}`;
+    const url = `https://google-contact.onrender.com/labelUser/${id}`;
     fetch(url, {
       method: "PUT",
       headers: {

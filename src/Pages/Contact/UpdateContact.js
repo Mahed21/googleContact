@@ -40,7 +40,7 @@ const UpdateContact = () => {
       label: label,
     };
     e.preventDefault();
-    fetch(`http://localhost:5000/user/${id}`, {
+    fetch(`https://google-contact.onrender.com/user/${id}`, {
       method: "PUT",
       headers: {
         "content-type": "application/json",

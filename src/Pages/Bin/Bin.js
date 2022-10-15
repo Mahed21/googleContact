@@ -1,32 +1,85 @@
 import React, { useEffect, useState } from "react";
 import DisplayBinData from "./DisplayBinData";
+import { useQuery } from "@tanstack/react-query";
+import UseAuth from "../../Context/UseAuth";
 
 const Bin = () => {
+  const { user } = UseAuth();
+
   const [userData, setUserData] = useState([]);
-  useEffect(() => {
-    fetch("http://localhost:5000/user")
+  const { isLoading, error, data, refetch } = useQuery(["repoData"], () =>
+    fetch("https://google-contact.onrender.com/user")
       .then((res) => res.json())
       .then((data) => {
         //console.log(data);
-        const Datavalue = data.filter((datas) => datas.bin === "bin");
+        const Datavalue = data.filter(
+          (datas) => datas.bin === "bin" && datas.userEmail === user.email
+        );
         setUserData(Datavalue);
+      })
+  );
+
+  const deleteAll = (e) => {
+    e.preventDefault();
+    for (let i = 0; i < userData.length; i++) {
+      // console.log(userData[i]._id);
+      fetch(`https://google-contact.onrender.com/user/${userData[i]._id}`, {
+        method: "DELETE",
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log("successfully deleted");
+
+          if (data.deletedCount > 0) {
+            refetch();
+          }
+        });
+    }
+  };
+  const handleUndo = (id) => {
+    console.log(id);
+    fetch(`https://google-contact.onrender.com/userBinUpdate/${id}`, {
+      method: "PUT",
+      headers: {
+        "content-type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        alert("User back to your Contact List");
+        refetch();
       });
-  }, []);
+  };
+
   return (
     <div>
-      <h1 className=" mb-3 mt-3">Welcome to bin</h1>
-      <div className="row row-cols-lg-4 mb-4">
-        <h4>Name</h4>
-        <h4>Email</h4>
-        <h4>Phone Number</h4>
-        <h4>Title & Company</h4>
-      </div>
-      <hr className="mb-4" />
-      <div>
-        {userData.map((data) => (
-          <DisplayBinData data={data} key={data._id}></DisplayBinData>
-        ))}
-      </div>
+      {userData.length < 1 ? (
+        <div>
+          <h1 className="text-center">No data in Bin found</h1>
+        </div>
+      ) : (
+        <div>
+          <button className=" mb-3 mt-3 btn" onClick={deleteAll}>
+            Permanantly Delete All
+          </button>
+          <div className="row row-cols-lg-5 mb-4">
+            <h4>Name</h4>
+            <h4>Email</h4>
+            <h4>Phone Number</h4>
+            <h4>Title & Company</h4>
+          </div>
+          <hr className="mb-4" />
+          <div>
+            {userData.map((data) => (
+              <DisplayBinData
+                data={data}
+                key={data._id}
+                onChangeForUndo={(event) => handleUndo(data._id)}
+              ></DisplayBinData>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
