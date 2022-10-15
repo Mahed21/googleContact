@@ -14,7 +14,7 @@ const Navigation = () => {
   return (
     <div className="header pt-3 pb-3 mb-3">
       <div className="d-flex justify-content-between container ">
-        <div className="d-flex">
+        <div className="d-flex mt-2">
           <label
             htmlFor="my-drawer-2"
             className="btn btn-primary drawer-button lg:hidden"
@@ -88,12 +88,12 @@ const Navigation = () => {
           </span>
           {user.email ? (
             <div>
-              <button className="btn" onClick={Logout}>
+              <button className="btn mb-3" onClick={Logout}>
                 Logout
               </button>
             </div>
           ) : (
-            <div className="btn" onClick={login}>
+            <div className="btn mb-3" onClick={login}>
               Login
             </div>
           )}

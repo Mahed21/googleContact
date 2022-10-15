@@ -5,6 +5,21 @@ import UseAuth from "../../Context/UseAuth";
 
 const Bin = () => {
   const { user } = UseAuth();
+  // fixed width
+  const [windowSize, setWindowSize] = useState(getWindowSize());
+
+  useEffect(() => {
+    function handleWindowResize() {
+      setWindowSize(getWindowSize());
+    }
+
+    window.addEventListener("resize", handleWindowResize);
+
+    return () => {
+      window.removeEventListener("resize", handleWindowResize);
+    };
+  }, []);
+  //fixed width end
 
   const [userData, setUserData] = useState([]);
   const { isLoading, error, data, refetch } = useQuery(["repoData"], () =>
@@ -57,7 +72,7 @@ const Bin = () => {
         <div>
           <h1 className="text-center">No data in Bin found</h1>
         </div>
-      ) : (
+      ) : windowSize.innerWidth > 995 ? (
         <div>
           <button className=" mb-3 mt-3 btn" onClick={deleteAll}>
             Permanantly Delete All
@@ -68,20 +83,29 @@ const Bin = () => {
             <h4>Phone Number</h4>
             <h4>Title & Company</h4>
           </div>
-          <hr className="mb-4" />
-          <div>
-            {userData.map((data) => (
-              <DisplayBinData
-                data={data}
-                key={data._id}
-                onChangeForUndo={(event) => handleUndo(data._id)}
-              ></DisplayBinData>
-            ))}
-          </div>
+        </div>
+      ) : (
+        <div className="row row-cols-3 mb-4">
+          <h4>Name</h4>
+          <h4>Phone Number</h4>
         </div>
       )}
+      <hr className="mb-4" />
+      <div>
+        {userData.map((data) => (
+          <DisplayBinData
+            data={data}
+            key={data._id}
+            onChangeForUndo={(event) => handleUndo(data._id)}
+          ></DisplayBinData>
+        ))}
+      </div>
     </div>
   );
 };
 
 export default Bin;
+function getWindowSize() {
+  const { innerWidth, innerHeight } = window;
+  return { innerWidth, innerHeight };
+}

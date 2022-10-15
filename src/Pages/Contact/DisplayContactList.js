@@ -19,6 +19,21 @@ const customStyles = {
 };
 
 const DisplayContactList = (props) => {
+  // fixed width
+  const [windowSize, setWindowSize] = useState(getWindowSize());
+
+  useEffect(() => {
+    function handleWindowResize() {
+      setWindowSize(getWindowSize());
+    }
+
+    window.addEventListener("resize", handleWindowResize);
+
+    return () => {
+      window.removeEventListener("resize", handleWindowResize);
+    };
+  }, []);
+  //fixed width end
   const { user } = UseAuth();
   // model
   let subtitle;
@@ -113,100 +128,191 @@ const DisplayContactList = (props) => {
   //update label in user link
 
   return (
-    <div className="row row-cols-lg-5 mb-3 contact-card pt-3 pb-3">
-      <div className="d-flex">
-        <div className="mt-2 me-2">
-          <input
-            type="checkbox"
-            id="myCheck"
-            className="w-100"
-            onChange={onDeletedIdChange}
-          />
-        </div>
-        <img src={image} alt="" className="img-fluid image" />
-        <span className="ms-2 mt-2">
-          {firstName} {sureName}
-        </span>
-      </div>
-      <div className="mt-2">
-        <h5>{email}</h5>
-      </div>
-      <div className="mt-2">
-        <h5>{phone}</h5>
-      </div>
-      <div className="mt-2">
-        <h5>
-          {title} {company}
-        </h5>
-      </div>
-      <div className="mt-2 d-flex">
-        <button onClick={(e) => update(_id)}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="feather feather-edit-2"
-          >
-            <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
-          </svg>
-        </button>
-        <button className="ms-3" onClick={openModal}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="feather feather-more-vertical"
-          >
-            <circle cx="12" cy="12" r="1"></circle>
-            <circle cx="12" cy="5" r="1"></circle>
-            <circle cx="12" cy="19" r="1"></circle>
-          </svg>
-        </button>
-        <Modal
-          isOpen={modalIsOpen}
-          onAfterOpen={afterOpenModal}
-          onRequestClose={closeModal}
-          style={customStyles}
-          contentLabel="Example Modal"
-        >
-          <form>
-            <div className="container">
-              <h1 className="mb-5 font-italic">Your All lebel</h1>
-              <div>
-                {labelName.map((label) => (
-                  <DisplayLabel
-                    label={label}
-                    key={label._id}
-                    onLabelChange={(event) =>
-                      handlelabel(event, _id, label.label)
-                    }
-                  ></DisplayLabel>
-                ))}
-              </div>
-              <div className="d-flex justify-content-end mt-3">
-                <button className="label-btn me-3" onClick={closeModal}>
-                  cancel
-                </button>
-              </div>
-              <br />
+    <div>
+      {windowSize.innerWidth > 995 ? (
+        <div className="row row-cols-lg-5 mb-3 contact-card pt-3 pb-3">
+          <div className="d-flex">
+            <div className="mt-2 me-2">
+              <input
+                type="checkbox"
+                id="myCheck"
+                className="w-100"
+                onChange={onDeletedIdChange}
+              />
             </div>
-          </form>
-        </Modal>
-      </div>
+            <img src={image} alt="" className="img-fluid image" />
+            <span className="ms-2 mt-2">
+              {firstName} {sureName}
+            </span>
+          </div>
+          <div className="mt-2">
+            <h5>{email}</h5>
+          </div>
+          <div className="mt-2">
+            <h5>{phone}</h5>
+          </div>
+          <div className="mt-2">
+            <h5>
+              {title} {company}
+            </h5>
+          </div>
+          <div className="mt-2 d-flex">
+            <button onClick={(e) => update(_id)}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="feather feather-edit-2"
+              >
+                <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
+              </svg>
+            </button>
+            <button className="ms-3" onClick={openModal}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="feather feather-more-vertical"
+              >
+                <circle cx="12" cy="12" r="1"></circle>
+                <circle cx="12" cy="5" r="1"></circle>
+                <circle cx="12" cy="19" r="1"></circle>
+              </svg>
+            </button>
+            <Modal
+              isOpen={modalIsOpen}
+              onAfterOpen={afterOpenModal}
+              onRequestClose={closeModal}
+              style={customStyles}
+              contentLabel="Example Modal"
+            >
+              <form>
+                <div className="container">
+                  <h1 className="mb-5 font-italic">Your All lebel</h1>
+                  <div>
+                    {labelName.map((label) => (
+                      <DisplayLabel
+                        label={label}
+                        key={label._id}
+                        onLabelChange={(event) =>
+                          handlelabel(event, _id, label.label)
+                        }
+                      ></DisplayLabel>
+                    ))}
+                  </div>
+                  <div className="d-flex justify-content-end mt-3">
+                    <button className="label-btn me-3" onClick={closeModal}>
+                      cancel
+                    </button>
+                  </div>
+                  <br />
+                </div>
+              </form>
+            </Modal>
+          </div>
+        </div>
+      ) : (
+        <div className="row row-cols-2 mb-3 contact-card pt-3 pb-3">
+          <div className="d-flex">
+            <div className="mt-2 me-2">
+              <input
+                type="checkbox"
+                id="myCheck"
+                className="w-100"
+                onChange={onDeletedIdChange}
+              />
+            </div>
+            <img src={image} alt="" className="img-fluid image" />
+            <span className="ms-2 mt-2">
+              {firstName} {sureName}
+            </span>
+          </div>
+          <div className="mt-2 d-flex">
+            <button onClick={(e) => update(_id)}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="feather feather-edit-2"
+              >
+                <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
+              </svg>
+            </button>
+            <button className="ms-3" onClick={openModal}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="feather feather-more-vertical"
+              >
+                <circle cx="12" cy="12" r="1"></circle>
+                <circle cx="12" cy="5" r="1"></circle>
+                <circle cx="12" cy="19" r="1"></circle>
+              </svg>
+            </button>
+            <Modal
+              isOpen={modalIsOpen}
+              onAfterOpen={afterOpenModal}
+              onRequestClose={closeModal}
+              style={customStyles}
+              contentLabel="Example Modal"
+            >
+              <form>
+                <div className="container">
+                  <h1 className="mb-5 font-italic">Your All lebel</h1>
+                  <div>
+                    {labelName.map((label) => (
+                      <DisplayLabel
+                        label={label}
+                        key={label._id}
+                        onLabelChange={(event) =>
+                          handlelabel(event, _id, label.label)
+                        }
+                      ></DisplayLabel>
+                    ))}
+                  </div>
+                  <div className="d-flex justify-content-end mt-3">
+                    <button className="label-btn me-3" onClick={closeModal}>
+                      cancel
+                    </button>
+                  </div>
+                  <br />
+                </div>
+              </form>
+            </Modal>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
 
 export default DisplayContactList;
+function getWindowSize() {
+  const { innerWidth, innerHeight } = window;
+  return { innerWidth, innerHeight };
+}

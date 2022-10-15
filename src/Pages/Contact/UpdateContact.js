@@ -60,7 +60,7 @@ const UpdateContact = () => {
         <div className="container">
           <div className="d-flex justify-content-between">
             <div className="mb-2">
-              <img src={image} alt="" className="updateimage" />
+              <img src={image} alt="" className="updateimage mb-2" />
               <input
                 type="file"
                 accept="image/*"
